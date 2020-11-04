@@ -372,7 +372,7 @@ summary {
 
 
 
-<h1 class="title toc-ignore">Chaffinches (again)</h1>
+<h1 class="title toc-ignore">Chaffinches <em>(again)</em></h1>
 <h4 class="author">Hannah Clark</h4>
 <h4 class="date">04/11/2020</h4>
 
@@ -381,11 +381,11 @@ summary {
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>Summarising the chaffinches data, using R markdown</p>
+<p>Summarising the <em>chaffinches data</em>, using R markdown</p>
 </div>
 <div id="methods" class="section level2">
 <h2>Methods</h2>
-<p>After tidying the data, functions were created to calculate the sum squared, along with other statistical summaries</p>
+<p>The chaffinches data was imported and tidied</p>
 <pre class="r"><code>#read in the data
 chaff &lt;- read.table(&quot;~/R Workshop/chaff02/data-raw/chaff.txt&quot;, header = T)
 
@@ -394,6 +394,22 @@ chaff2 &lt;- gather(data = chaff, key = sex, value = mass)
 
 #write the tidied data into a new file
 write.table(chaff2, file = &#39;~/R Workshop/chaff02/data/tidychaff.txt&#39;, row.names = FALSE)</code></pre>
+<p>Summarising the data</p>
+<!-- this way doesn't take into account the groups, so is less useful  -->
+<pre><code>##         ss
+## 1 206.9497</code></pre>
+<!-- this does do it by group -->
+<pre class="r"><code>sum_sq &lt;- function(df, measure, group) {
+  df %&gt;% group_by({{ group }}) %&gt;% 
+    summarise(ss = sum(({{measure}} - mean({{measure}}))^2))
+}
+
+sum_sq(chaff2, mass, sex)</code></pre>
+<pre><code>## # A tibble: 2 x 2
+##   sex        ss
+##   &lt;chr&gt;   &lt;dbl&gt;
+## 1 females  86.8
+## 2 males    87.9</code></pre>
 </div>
 <div id="results" class="section level2">
 <h2>Results</h2>
