@@ -1,5 +1,5 @@
 ---
-title: "Chaffinches (again)"
+title: "Chaffinches *(again)*"
 author: "Hannah Clark"
 date: "04/11/2020"
 output: html_document
@@ -18,10 +18,10 @@ library (bookdown)
 ```
 
 ## Introduction
-Summarising the chaffinches data, using R markdown
+Summarising the *chaffinches data*, using R markdown
 
 ## Methods
-After tidying the data, functions were created to calculate the sum squared, along with other statistical summaries
+The chaffinches data was imported and tidied
 
 ```{r data tidying, echo = TRUE}
 #read in the data
@@ -34,12 +34,62 @@ chaff2 <- gather(data = chaff, key = sex, value = mass)
 write.table(chaff2, file = '~/R Workshop/chaff02/data/tidychaff.txt', row.names = FALSE)
 ```
 
+Summarising the data
 
+<!-- this way doesn't take into account the groups, so is less useful  -->
 
+```{r ss(x) version 1, include = FALSE}
+sum_sq <- function(df, measure) {
+  df %>% summarise(ss = sum(({{measure}} - mean({{measure}}))^2))
+}
 
+sum_sq(chaff2, mass)
+```
+
+<!-- this does do it by group -->
+
+```{r ss(x) by group, echo = TRUE}
+sum_sq <- function(df, measure, group) {
+  df %>% group_by({{ group }}) %>% 
+    summarise(ss = sum(({{measure}} - mean({{measure}}))^2))
+}
+
+sum_sq(chaff2, mass, sex)
+
+```
+
+```{r mean,length, sd, echo = TRUE}
+chaff2 %>% group_by(sex) %>% 
+  summarise(mean = mean(mass),
+            n = length(n),
+            sd = sd(mass),
+            se = sd/sqrt(n))
+```
+
+This can also be done in 1 function
+
+```{r summary in 1 function, echo = TRUE}
+data_summary <- function(df, measure, group) {
+  df %>% group_by({{ group }}) %>% 
+    summarise(mean = mean({{measure}}),
+            n = length(n),
+            sd = sd({{measure}}),
+            se = sd({{measure}})/sqrt(length(n)),
+            ss = sum(({{measure}} - mean({{measure}}))^2))
+}
+
+data_summary(chaff2, mass, sex)
+```
 
 
 ## Results
+
+The results from summarising the chaffinches data, grouping by sex
+
+```{r results}
+data_summary(chaff2, mass, sex)
+```
+
 
 ## Discussion
 

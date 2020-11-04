@@ -396,8 +396,6 @@ chaff2 &lt;- gather(data = chaff, key = sex, value = mass)
 write.table(chaff2, file = &#39;~/R Workshop/chaff02/data/tidychaff.txt&#39;, row.names = FALSE)</code></pre>
 <p>Summarising the data</p>
 <!-- this way doesn't take into account the groups, so is less useful  -->
-<pre><code>##         ss
-## 1 206.9497</code></pre>
 <!-- this does do it by group -->
 <pre class="r"><code>sum_sq &lt;- function(df, measure, group) {
   df %&gt;% group_by({{ group }}) %&gt;% 
@@ -410,9 +408,41 @@ sum_sq(chaff2, mass, sex)</code></pre>
 ##   &lt;chr&gt;   &lt;dbl&gt;
 ## 1 females  86.8
 ## 2 males    87.9</code></pre>
+<pre class="r"><code>chaff2 %&gt;% group_by(sex) %&gt;% 
+  summarise(mean = mean(mass),
+            n = length(n),
+            sd = sd(mass),
+            se = sd/sqrt(n))</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   sex      mean     n    sd    se
+##   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 females  20.5     1  2.14  2.14
+## 2 males    22.3     1  2.15  2.15</code></pre>
+<p>This can also be done in 1 function</p>
+<pre class="r"><code>data_summary &lt;- function(df, measure, group) {
+  df %&gt;% group_by({{ group }}) %&gt;% 
+    summarise(mean = mean({{measure}}),
+            n = length(n),
+            sd = sd({{measure}}),
+            se = sd({{measure}})/sqrt(length(n)),
+            ss = sum(({{measure}} - mean({{measure}}))^2))
+}
+
+data_summary(chaff2, mass, sex)</code></pre>
+<pre><code>## # A tibble: 2 x 6
+##   sex      mean     n    sd    se    ss
+##   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 females  20.5     1  2.14  2.14  86.8
+## 2 males    22.3     1  2.15  2.15  87.9</code></pre>
 </div>
 <div id="results" class="section level2">
 <h2>Results</h2>
+<p>The results from summarising the chaffinches data, grouping by sex</p>
+<pre><code>## # A tibble: 2 x 6
+##   sex      mean     n    sd    se    ss
+##   &lt;chr&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 females  20.5     1  2.14  2.14  86.8
+## 2 males    22.3     1  2.15  2.15  87.9</code></pre>
 </div>
 <div id="discussion" class="section level2">
 <h2>Discussion</h2>
