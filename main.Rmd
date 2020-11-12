@@ -16,10 +16,24 @@ knitr::opts_chunk$set(echo = FALSE,
 ```{r packages}
 library(tidyverse)
 library (bookdown)
+library (kableExtra)
+library (flextable)
+library (gt)
+library (devtools)
+library(citr)
 ```
 
 ## Introduction
-Chaffinches, *Fringilla coelebs*, are common to UK woodland, farmland, parks, and gardens [@Woodland_Trust_undated-gv]. The average weight of a chaffinch is 18-29g [@noauthor_undated-dy]. The masses of a group of finches were taken and categorised by sex, to see how this varied from this known average.
+Chaffinches, *Fringilla coelebs*, are common to UK woodland, farmland, parks, and gardens [@Woodland_Trust_undated-gv]. The average weight of a chaffinch is 18-29g [@noauthor_undated-dy]. The masses of a group of finches were taken and categorised by sex, to see how this varied from this known average. See Figure \@ref(fig:malechaff-fig)
+
+(ref:malechaff-fig) A male chaffinch. Photo taken by Michael Apel, CC BY 2.5, https://en.wikipedia.org/wiki/Common_chaffinch#/media/File:Fringilla_coelebs_male1.jpg
+
+
+```{r malechaff-fig, out.height='200px', fig.cap= '(ref:malechaff-fig)'}
+knitr::include_graphics('figures/malechaff01.jpg')
+
+```
+
 
 ## Methods
 The chaffinches data was imported and tidied
@@ -79,16 +93,20 @@ data_summary <- function(df, measure, group) {
             ss = sum(({{measure}} - mean({{measure}}))^2))
 }
 
-data_summary(chaff2, mass, sex)
+chaff3 <- data_summary(chaff2, mass, sex)
 ```
 
 
 ## Results
 
-The results from summarising the chaffinches data, grouping by sex
+The results from summarising the chaffinches data, grouping by sex. See table \@ref(tab: chaff-table)
 
-```{r results}
-data_summary(chaff2, mass, sex)
+```{r chaff-table}
+knitr::kable(chaff3 [,-3],
+             digits = 2,
+             caption = 'Chaffinch masses by sex',
+             row.names = FALSE,
+             col.names = c('Sex', 'Mean mass' ,'Standard deviation', 'Standard error', 'Sum squared'))
 ```
 
 
@@ -96,7 +114,7 @@ data_summary(chaff2, mass, sex)
 
 
 
-
+## References
 
 
 
