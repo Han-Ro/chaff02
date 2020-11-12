@@ -436,10 +436,24 @@ sum_sq(chaff2, mass, sex)</code></pre>
 }
 
 chaff3 &lt;- data_summary(chaff2, mass, sex)</code></pre>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  mass by sex
+## t = -2.6471, df = 38, p-value = 0.01175
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -3.167734 -0.422266
+## sample estimates:
+## mean in group females   mean in group males 
+##                20.480                22.275</code></pre>
+<!-- p = 0.01175 so there is a significant difference -->
 </div>
 <div id="results" class="section level1">
 <h1><span class="header-section-number">3</span> Results</h1>
-<p>The results from summarising the chaffinches data, grouping by sex. See table @ref(tab: chaff-table)</p>
+<!-- extract the values so they can be used in the report (regardless of what data is used, so it can be reproducible) -->
+<p>Of the two groups, it was the males with the greater mean mass (<span class="math inline">\(\bar{x} \pm s.e.\)</span>: 22.27 <span class="math inline">\(\pm\)</span> 2.15 g Kg<sup>-1</sup>)</p>
+<p>The results from summarising the chaffinches data, grouping by sex. See table <a href="#tab:chaff-table">3.1</a></p>
 <table>
 <caption>
 <span id="tab:chaff-table">Table 3.1: </span>Chaffinch masses by sex

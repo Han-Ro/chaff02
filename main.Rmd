@@ -97,10 +97,26 @@ data_summary <- function(df, measure, group) {
 chaff3 <- data_summary(chaff2, mass, sex)
 ```
 
+```{r t test}
+t.test(data = chaff2,
+       mass ~ sex,
+       var.equal = T)
+```
+<!-- p = 0.01175 so there is a significant difference -->
 
 # Results
 
-The results from summarising the chaffinches data, grouping by sex. See table \@ref(tab: chaff-table)
+<!-- extract the values so they can be used in the report (regardless of what data is used, so it can be reproducible) -->
+
+```{r extracting values}
+highestmean <- max(chaff3$mean)
+highestmeanse <- chaff3$se[chaff3$mean == highestmean]
+highestmeansex <- chaff3$sex[chaff3$mean == highestmean]
+```
+
+Of the two groups, it was the `r highestmeansex` with the greater mean mass ($\bar{x} \pm s.e.$: `r round(highestmean, 2)` $\pm$ `r round(highestmeanse, 2)` g Kg^-1^)
+
+The results from summarising the chaffinches data, grouping by sex. See table \@ref(tab:chaff-table)
 
 ```{r chaff-table}
 knitr::kable(chaff3 [,-3],
