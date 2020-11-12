@@ -2,7 +2,8 @@
 title: "Chaffinches *(again)*"
 author: "Hannah Clark"
 date: "04/11/2020"
-output: html_document
+output:
+  bookdown::html_document2: default
 bibliography: references.bib
 ---
 
@@ -23,7 +24,7 @@ library (devtools)
 library(citr)
 ```
 
-## Introduction
+# Introduction
 Chaffinches, *Fringilla coelebs*, are common to UK woodland, farmland, parks, and gardens [@Woodland_Trust_undated-gv]. The average weight of a chaffinch is 18-29g [@noauthor_undated-dy]. The masses of a group of finches were taken and categorised by sex, to see how this varied from this known average. See Figure \@ref(fig:malechaff-fig)
 
 (ref:malechaff-fig) A male chaffinch. Photo taken by Michael Apel, CC BY 2.5, https://en.wikipedia.org/wiki/Common_chaffinch#/media/File:Fringilla_coelebs_male1.jpg
@@ -35,7 +36,7 @@ knitr::include_graphics('figures/malechaff01.jpg')
 ```
 
 
-## Methods
+# Methods
 The chaffinches data was imported and tidied
 
 ```{r data tidying, echo = TRUE}
@@ -97,7 +98,7 @@ chaff3 <- data_summary(chaff2, mass, sex)
 ```
 
 
-## Results
+# Results
 
 The results from summarising the chaffinches data, grouping by sex. See table \@ref(tab: chaff-table)
 
@@ -110,11 +111,11 @@ knitr::kable(chaff3 [,-3],
 ```
 
 
-## Discussion
+# Discussion
 
 
 
-## References
+# References
 
 
 
