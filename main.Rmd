@@ -114,7 +114,7 @@ highestmeanse <- chaff3$se[chaff3$mean == highestmean]
 highestmeansex <- chaff3$sex[chaff3$mean == highestmean]
 ```
 
-Of the two groups, it was the `r highestmeansex` with the greater mean mass ($\bar{x} \pm s.e.$: `r round(highestmean, 2)` $\pm$ `r round(highestmeanse, 2)` g Kg^-1^)
+Of the two groups, it was the `r highestmeansex` with the greater mean mass ($\bar{x} \pm s.e.$: `r round(highestmean, 2)` $\pm$ `r round(highestmeanse, 2)` g)
 
 The results from summarising the chaffinches data, grouping by sex. See table \@ref(tab:chaff-table)
 
@@ -124,6 +124,32 @@ knitr::kable(chaff3 [,-3],
              caption = 'Chaffinch masses by sex',
              row.names = FALSE,
              col.names = c('Sex', 'Mean mass' ,'Standard deviation', 'Standard error', 'Sum squared'))
+```
+
+The results can also be shown as a table. See figure \@ref(fig:mass-fig)
+
+(ref:mass-fig) A graph showing the means and standard errors for the mass of each sex
+
+```{r mass-fig, fig.height = 4, fig.width = 4, fig.cap = '(ref:mass-fig)'}
+
+ggplot() +
+  geom_point(data = chaff2, aes(x = sex, y = mass),
+             position = position_jitter(width = 0.1, height = 0),
+             colour = "turquoise") +
+  geom_errorbar(data = chaff3, 
+                aes(x = sex, ymin = mean - se, ymax = mean + se),
+                width = 0.3) +
+  geom_errorbar(data = chaff3, 
+                aes(x = sex, ymin = mean, ymax = mean),
+                width = 0.2) +
+  scale_y_continuous(name = expression("Mass g"), 
+                     limits = c(15, 27), 
+                     expand = c(0, 0)) +
+  scale_x_discrete(labels = c("Female", "Male"), 
+                   name = "Sex") +
+  theme_classic() +
+  theme(axis.title = element_text(size  = 10),
+        axis.text = element_text(size = 10))
 ```
 
 
